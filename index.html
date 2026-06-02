@@ -4,16 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>謝瑜 ｜ 履歷 Resume</title>
+    <!-- 引入 PingFang TC 和 Heiti TC，以及 Google Material Icons (Rounded) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PingFang+TC:wght@400;500;700&family=Heiti+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
         :root {
-            --page-bg: #D9DCD6;      /* 最淺色：大背景 */
-            --primary-bg: #ffffff;   /* 履歷主體背景：保持白色以確保閱讀性 */
-            --sidebar-bg: #0D2C54;   /* 深藍色：側邊欄背景與主標題 */
-            --accent-color: #00A6ED; /* 亮藍色：點綴色、箭頭、重點線條 */
-            --text-main: #3E2B07;    /* 深棕色：主要內文文字 */
-            --text-light: #A9927D;   /* 淺棕色：日期與次要文字 */
-            --border-color: #D9DCD6; /* 邊框顏色 */
-            --spacing: 30px;
+            /* 顏色變量 */
+            --page-bg: #f2f2f7;      
+            --primary-bg: #ffffff;   
+            --sidebar-bg: #08235C;   /* 已修改：與左下角圖片相同的深藍色 */
+            --sidebar-text: #ffffff;
+            --brand-green: #00A546;  /* 渣打品牌綠色 */
+            --accent-color: #00A6ED; /* 其他點綴藍色 */
+            --text-main: #3E2B07;    
+            --text-light: #A9927D;   
+            --entry-title: #0D2C54;   
+            --border-color: #D9DCD6;
+            --spacing-sidebar: 35px;
+            --spacing-main: 50px;
         }
 
         * {
@@ -30,6 +40,7 @@
             display: flex;
             justify-content: center;
             padding: 40px 20px;
+            overflow-x: hidden;
         }
 
         .resume-page {
@@ -41,36 +52,67 @@
             flex-wrap: wrap;
             border-radius: 8px;
             overflow: hidden;
+            position: relative;
         }
 
         /* Sidebar Styling */
         .sidebar {
             background-color: var(--sidebar-bg);
-            color: #fff;
+            color: var(--sidebar-text);
             width: 320px;
-            padding: 50px 35px;
+            padding: 50px var(--spacing-sidebar) 80px; 
             display: flex;
             flex-direction: column;
+            position: relative; 
+            /* 確保左下角圖片不會超出圓角範圍 */
+            overflow: hidden; 
+        }
+
+        /* 將內容置於 Logo 底圖之上 */
+        .sidebar-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            /* 確保底部留有空間給大圖示 */
+            padding-bottom: 150px; 
+        }
+
+        /* 左下角渣打圖片設定 */
+        .sidebar-sc-graphic {
+            position: absolute;
+            bottom: 0; 
+            left: 0;   
+            z-index: 1;
+            pointer-events: none; /* 避免影響文字點擊 */
+            line-height: 0; /* 消除圖片下方的預設空白 */
+        }
+        
+        .sidebar-sc-graphic img {
+            display: block;
+            width: 250px; /* 圖片大小，可依需求微調 */
+            height: auto;
         }
 
         /* 大頭照設計 */
         .profile-photo-container {
             display: flex;
-            justify-content: center; /* 大頭照置中 */
+            justify-content: center;
             margin-bottom: 25px;
         }
 
         .profile-photo {
-            width: 140px; /* 大頭照寬度 */
+            width: 140px;
             height: 140px;
-            border-radius: 50%; /* 圓形 */
-            border: 4px solid #ffffff; /* 精緻白色邊框 */
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* 增加立體感 */
-            object-fit: cover; /* 確保圖片不變形，自動填充圓形區域 */
+            border-radius: 50%;
+            border: 4px solid #ffffff; 
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2); 
+            object-fit: cover;
         }
 
         .profile-header {
-            text-align: center; /* 姓名與職稱置中於大頭照下方 */
+            text-align: center;
             width: 100%;
         }
 
@@ -78,6 +120,7 @@
             font-size: 2.4rem;
             margin-bottom: 5px;
             letter-spacing: 2px;
+            color: var(--sidebar-text);
         }
 
         .sidebar .role {
@@ -85,6 +128,7 @@
             opacity: 0.85;
             margin-bottom: 40px;
             line-height: 1.4;
+            color: var(--sidebar-text);
         }
 
         .sidebar-section {
@@ -99,22 +143,39 @@
             padding-bottom: 10px;
             margin-bottom: 20px;
             letter-spacing: 1px;
-            text-align: left; /* 區塊標題靠左 */
+            text-align: left;
+            color: var(--sidebar-text);
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-section h2 .material-icons-round {
+            font-size: 1.2rem;
+            margin-right: 8px;
+            color: var(--brand-green);
         }
 
         .contact-item {
             font-size: 0.9rem;
             margin-bottom: 12px;
             word-wrap: break-word;
-            text-align: left; /* 聯絡資訊靠左 */
+            text-align: left;
+            display: flex;
+            flex-direction: column;
         }
 
         .contact-item strong {
-            display: block;
+            display: flex;
+            align-items: center;
             font-size: 0.8rem;
-            opacity: 0.6;
-            margin-bottom: 2px;
-            color: #D9DCD6; /* Use light color for labels */
+            opacity: 0.7;
+            margin-bottom: 4px;
+            color: #D9DCD6;
+        }
+
+        .contact-item[aria-label="語言能力"] strong .material-icons-round {
+            color: var(--brand-green);
+            margin-right: 6px;
         }
 
         .contact-item a {
@@ -142,9 +203,11 @@
         /* Main Content Styling */
         .main-content {
             flex: 1;
-            padding: 50px 50px;
+            padding: 50px var(--spacing-main) 0px; 
             min-width: 500px;
             background: #fff;
+            display: flex;
+            flex-direction: column;
         }
 
         section {
@@ -154,12 +217,18 @@
         .section-header {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--sidebar-bg);
-            border-left: 5px solid var(--accent-color);
+            color: var(--entry-title);
+            border-left: 5px solid var(--brand-green); 
             padding-left: 15px;
             margin-bottom: 25px;
             display: flex;
             align-items: center;
+        }
+
+        .section-header .material-icons-round {
+            font-size: 1.3rem;
+            margin-right: 10px;
+            color: var(--accent-color);
         }
 
         /* Collapsible Entry Styling */
@@ -170,6 +239,7 @@
             background: #fff;
             overflow: hidden;
             transition: box-shadow 0.3s, border-color 0.3s;
+            position: relative;
         }
 
         .entry:hover {
@@ -199,7 +269,7 @@
         .entry-title {
             font-size: 1.1rem;
             font-weight: bold;
-            color: var(--sidebar-bg);
+            color: var(--entry-title);
         }
 
         .entry-date {
@@ -211,13 +281,21 @@
 
         .toggle-icon {
             font-size: 1.2rem;
-            color: var(--accent-color);
-            transition: transform 0.3s ease;
+            color: var(--text-light);
+            transition: transform 0.3s ease, color 0.3s ease;
             line-height: 1;
+            font-family: 'Material Icons Round';
+            transform: rotate(-90deg); /* 預設收合狀態：箭頭向右 */
         }
 
         .entry.active .toggle-icon {
-            transform: rotate(90deg); /* 展開時箭頭轉向下方 */
+            transform: rotate(0deg) !important; /* 展開狀態：箭頭向下 */
+            color: var(--accent-color);
+            content: "expand_more" !important;
+        }
+
+        .entry .toggle-icon {
+            content: "expand_more";
         }
 
         .entry-content-wrapper {
@@ -277,19 +355,39 @@
         .motivation-text h3 {
             font-size: 1rem;
             margin: 20px 0 10px;
-            color: var(--sidebar-bg);
+            color: var(--entry-title);
         }
 
         .availability-badge {
             display: inline-block;
-            background: rgba(0, 166, 237, 0.1); /* Light accent background */
-            color: var(--sidebar-bg);
+            background: rgba(0, 166, 237, 0.1);
+            color: var(--entry-title);
             padding: 10px 20px;
             border-radius: 50px;
             font-weight: bold;
             margin-top: 20px;
+            margin-bottom: 20px;
             font-size: 0.9rem;
             border: 1px solid var(--accent-color);
+        }
+
+        /* 黑底 Logo 區塊 */
+        .footer-logos {
+            background-color: #181818; 
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: auto; 
+            margin-left: calc(-1 * var(--spacing-main));
+            margin-right: calc(-1 * var(--spacing-main));
+        }
+
+        .footer-logos img {
+            max-height: 45px;
+            object-fit: contain;
         }
 
         @media (max-width: 850px) {
@@ -300,17 +398,26 @@
                 width: 100%;
                 min-width: unset;
             }
+            .sidebar-content {
+                padding-bottom: 120px; /* 手機版略為縮減底部預留空間 */
+            }
             .entry-header {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+            .entry.active .entry-content-wrapper {
+                max-height: 2000px; 
             }
             .toggle-icon {
                 align-self: flex-end;
                 margin-top: -25px;
             }
             .profile-photo {
-                width: 120px; /* 手機版縮小圖片 */
+                width: 120px;
                 height: 120px;
+            }
+            .sidebar-sc-graphic img {
+                width: 180px; /* 手機版稍微縮小圖案 */
             }
         }
 
@@ -321,8 +428,10 @@
             .toggle-icon { display: none; }
             .entry { border: none; margin-bottom: 20px; }
             .entry-header { padding: 0; background: none; }
-            .sidebar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .sidebar { -webkit-print-color-adjust: exact; print-color-adjust: exact; padding-bottom: 20px; }
             .profile-photo { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .sidebar-sc-graphic { display: none; }
+            .footer-logos { background-color: transparent; border-top: 1px solid #ccc; padding: 20px 0; margin-left: 0; margin-right: 0;}
         }
     </style>
 </head>
@@ -330,81 +439,93 @@
 
 <div class="resume-page">
     <aside class="sidebar">
-        <div class="profile-photo-container">
-             <img src="yu.jpg" alt="謝瑜 Profile Photo" class="profile-photo">
+        <!-- 側邊欄底部圖案：切齊最左下角 -->
+        <div class="sidebar-sc-graphic">
+            <img src="image_49b48a.png" alt="Sidebar Background Graphic">
         </div>
 
-        <div class="profile-header">
-            <h1>謝瑜</h1>
-            <div class="role">面試職位：SCB | C&W Next Gen 2026  暑期實習生</div>
-        </div>
+        <div class="sidebar-content">
+            <div class="profile-photo-container">
+                 <img src="yu.jpg" alt="謝瑜 Profile Photo" class="profile-photo">
+            </div>
 
-        <div class="contact-item">
-            <strong>語言能力</strong>
-            <div style="margin-bottom: 4px;">中文（母語）</div>
-            <div style="margin-bottom: 8px;">
-                英文 B2（CEFR）
-                <a href="https://cert.efset.org/en/s48EQA" target="_blank" style="font-size: 0.8rem; margin-left: 5px; text-decoration: underline; color: var(--accent-color);">[檢視證書]</a>
+            <div class="profile-header">
+                <h1>謝瑜</h1>
+                <div class="role">面試職位：SCB | C&W Next Gen 2026  暑期實習生</div>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.8rem; opacity: 0.9; padding-left: 10px; border-left: 2px solid var(--accent-color);">
-                <span>Reading: C2</span>
-                <span>Writing: B2</span>
-                <span>Listening: B1</span>
-                <span>Speaking: B1</span>
-            </div>
-        </div>
 
-        <div class="sidebar-section">
-            <h2>專業技能</h2>
-            <div class="skill-group">
-                <h3>設計工具</h3>
-                <div class="skill-list">Canva、Adobe Photoshop、Adobe Illustrator、Inkscape、Microsoft PowerPoint、醒圖</div>
+            <div class="contact-item" aria-label="語言能力">
+                <strong><span class="material-icons-round">chat_bubble_outline</span>語言能力</strong>
+                <div style="margin-bottom: 4px;">中文（母語）</div>
+                <div style="margin-bottom: 8px;">
+                    英文 B2（CEFR）
+                    <a href="https://cert.efset.org/en/s48EQA" target="_blank" style="font-size: 0.8rem; margin-left: 5px; text-decoration: underline; color: var(--accent-color);">[檢視證書]</a>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.8rem; opacity: 0.9; padding-left: 10px; border-left: 2px solid var(--accent-color);">
+                    <span>Reading: C2</span>
+                    <span>Writing: B2</span>
+                    <span>Listening: B1</span>
+                    <span>Speaking: B1</span>
+                </div>
             </div>
-            <div class="skill-group">
-                <h3>影片剪輯</h3>
-                <div class="skill-list">CapCut、剪映、Adobe Premiere（基礎）</div>
-            </div>
-            <div class="skill-group">
-                <h3>社群行銷</h3>
-                <div class="skill-list">Instagram 經營、文章撰寫、文案撰寫、品牌視覺規劃</div>
-            </div>
-            <div class="skill-group">
-                <h3>數據分析</h3>
-                <div class="skill-list">Microsoft Excel、Google Analytics（基礎）</div>
-            </div>
-            <div class="skill-group">
-                <h3>AI 工具</h3>
-                <div class="skill-list">Midjourney、Gamma</div>
-            </div>
-            <div class="skill-group">
-                <h3>其他軟體</h3>
-                <div class="skill-list">autoCAD、Sketchup、Shapr3D</div>
-            </div>
-        </div>
 
-        <div class="sidebar-section">
-            <h2>教育背景</h2>
-            <div class="contact-item">
-                <strong>國立政治大學 ｜ 地政學系</strong>
-                預計 2027/06 畢業
+            <div class="sidebar-section">
+                <h2><span class="material-icons-round">construction</span>專業技能</h2>
+                <div class="skill-group">
+                    <h3>繪圖建模</h3>
+                    <div class="skill-list">AutoCAD、SketchUp、Shapr3D、空間動線與平面規劃</div>
+                </div>
+                <div class="skill-group">
+                    <h3>數據分析</h3>
+                    <div class="skill-list">Microsoft Excel (樞紐分析與估價模型)、多變量迴歸分析、Google Analytics (基礎)</div>
+                </div>
+                <div class="skill-group">
+                    <h3>專案管理</h3>
+                    <div class="skill-list">Notion (資料庫建置與自動化追蹤)、不動產市場調查與報告撰寫</div>
+                </div>
+                <div class="skill-group">
+                    <h3>設計工具</h3>
+                    <div class="skill-list">Canva、Adobe Photoshop、Adobe Illustrator、Inkscape、Microsoft PowerPoint、醒圖</div>
+                </div>
+                <div class="skill-group">
+                    <h3>AI 工具</h3>
+                    <div class="skill-list">Midjourney、Gamma</div>
+                </div>
+                <div class="skill-group">
+                    <h3>影片剪輯</h3>
+                    <div class="skill-list">CapCut、剪映、Adobe Premiere (基礎)</div>
+                <div class="skill-group">
+                    <h3>社群行銷</h3>
+                    <div class="skill-list">Instagram 經營、文章撰寫、文案撰寫、品牌視覺規劃
+                    </div>
+                    </div>
+                </div>
             </div>
-            <div class="contact-item" style="opacity: 0.8; font-size: 0.8rem;">
-                經歷：中原大學建築系 → 國立臺北大學不動產與城鄉系 → 國立政治大學地政學系
+
+            <div class="sidebar-section">
+                <h2><span class="material-icons-round">history_edu</span>教育背景</h2>
+                <div class="contact-item">
+                    <strong>國立政治大學 ｜ 地政學系</strong>
+                    預計 2027/06 畢業
+                </div>
+                <div class="contact-item" style="opacity: 0.8; font-size: 0.8rem;">
+                    經歷：中原大學建築系 → 國立臺北大學不動產與城鄉系 → 國立政治大學地政學系
+                </div>
             </div>
         </div>
     </aside>
 
     <main class="main-content">
         <section>
-            <div class="section-header">關於我</div>
+            <div class="section-header"><span class="material-icons-round">person_outline</span>關於我</div>
             <div class="about-box">
                 <strong>空間感知 × 資產管理 × 跨域思維</strong><br><br>
                 我是一位從微觀空間走向宏觀資產管理的跨領域學習者。過去在建築系的訓練，培養了我對空間尺度、實體設計與使用者體驗的敏銳度；而後轉入政大地政系，我進一步將這份對空間的理解，結合不動產估價、綠建築量化研究與經營管理的商業思維。我相信真正高價值的不動產策略，不僅依賴精準的財務估算，更需要理解實體空間如何賦能企業運作。我期望透過戴德梁行的實習計畫，發揮「設計與管理」雙管齊下的跨域優勢，在企業不動產生命週期的實務中實踐成長。
             </div>
         </section>
 
-        <section>
-            <div class="section-header">實習 & 工作經驗</div>
+        <section id="internships">
+            <div class="section-header"><span class="material-icons-round">work_outline</span>實習 & 工作經驗</div>
             
             <div class="entry">
                 <div class="entry-header" onclick="this.parentElement.classList.toggle('active')">
@@ -412,7 +533,7 @@
                         <span class="entry-title">文案美編實習生 ｜ 運動女孩</span>
                         <span class="entry-date">2020/4 - 2020/7</span>
                     </div>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon">expand_more</span>
                 </div>
                 <div class="entry-content-wrapper">
                     <ul class="entry-content">
@@ -429,7 +550,7 @@
                         <span class="entry-title">建築設計實習生 ｜ 吳宗憲建築師事務所</span>
                         <span class="entry-date">2019/9 - 2020/2</span>
                     </div>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon">expand_more</span>
                 </div>
                 <div class="entry-content-wrapper">
                     <ul class="entry-content">
@@ -442,8 +563,8 @@
             </div>
         </section>
 
-        <section>
-            <div class="section-header">社團 & 校園經歷</div>
+        <section id="campus">
+            <div class="section-header"><span class="material-icons-round">groups</span>社團 & 校園經歷</div>
 
             <div class="entry">
                 <div class="entry-header" onclick="this.parentElement.classList.toggle('active')">
@@ -451,7 +572,7 @@
                         <span class="entry-title">美宣長 ｜ 中原大學期初成果展</span>
                         <span class="entry-date">109學年</span>
                     </div>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon">expand_more</span>
                 </div>
                 <div class="entry-content-wrapper">
                     <ul class="entry-content">
@@ -468,7 +589,7 @@
                         <span class="entry-title">美宣幹部 ｜ 政大轉學生聯誼會</span>
                         <span class="entry-date">114學年</span>
                     </div>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon">expand_more</span>
                 </div>
                 <div class="entry-content-wrapper">
                     <ul class="entry-content">
@@ -485,7 +606,7 @@
                         <span class="entry-title">其他校園經歷與專案</span>
                         <span class="entry-date">公關、策展與領導經驗</span>
                     </div>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon">expand_more</span>
                 </div>
                 <div class="entry-content-wrapper">
                     <ul class="entry-content">
@@ -500,14 +621,14 @@
         </section>
 
         <section>
-            <div class="section-header">內容創作 & 自媒體經營</div>
+            <div class="section-header"><span class="material-icons-round">palette</span>內容創作 & 自媒體經營</div>
             <div class="entry">
                 <div class="entry-header" onclick="this.parentElement.classList.toggle('active')">
                     <div class="entry-title-wrap">
                         <span class="entry-title">咖啡廳主題帳號創作者 ｜ 個人 Instagram</span>
                         <span class="entry-date">2024至今</span>
                     </div>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon">expand_more</span>
                 </div>
                 <div class="entry-content-wrapper">
                     <ul class="entry-content">
@@ -520,7 +641,7 @@
         </section>
 
         <section>
-            <div class="section-header">額外進修課程</div>
+            <div class="section-header"><span class="material-icons-round">lightbulb</span>額外進修課程</div>
             
             <div class="entry">
                 <div class="entry-header" onclick="this.parentElement.classList.toggle('active')">
@@ -528,7 +649,7 @@
                         <span class="entry-title">好色計設計營</span>
                         <span class="entry-date">2019年</span>
                     </div>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon">expand_more</span>
                 </div>
                 <div class="entry-content-wrapper">
                     <ul class="entry-content">
@@ -545,7 +666,7 @@
                         <span class="entry-title">Inkscape 向量設計課程</span>
                         <span class="entry-date">2026年</span>
                     </div>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon">expand_more</span>
                 </div>
                 <div class="entry-content-wrapper">
                     <ul class="entry-content">
@@ -559,7 +680,7 @@
         </section>
 
         <section>
-            <div class="section-header">申請動機</div>
+            <div class="section-header"><span class="material-icons-round">assignment_ind</span>申請動機</div>
             <div class="motivation-text">
                 <h3>【動機】</h3>
                 我參加次世代（Next Gen）計畫的動機，源自於對全球企業如何策略性地管理其實體資產有著深厚的興趣。這份興趣最初是在胡教授的「不動產經營管理」課程中被激發，並在近期戴德梁行（Cushman & Wakefield）於校園舉辦的研討會中進一步加深。研討會中所提出的「企業不動產生命週期」框架——涵蓋了從財務規劃到職場體驗——讓我產生了深刻的共鳴。此外，我目前正在進行一項量化研究，探討綠建築標章對台北市精華地段辦公室租金的影響。我非常渴望能參與這個計畫，因為它為我關於 ESG 價值的學術研究，與渣打銀行企業不動產（CRES）團隊實務且具備高度影響力的營運之間，提供了一個完美的交集點。
@@ -570,6 +691,12 @@
                 每週可配合：2-3 天 ｜ 最快上班日期：2026/7/1
             </div>
         </section>
+
+        <div class="footer-logos">
+            <img src="images.png" alt="Standard Chartered">
+            <img src="Cushman-Wakefield.png" alt="Cushman & Wakefield">
+        </div>
+
     </main>
 </div>
 
